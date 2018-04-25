@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="IMUSIKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="idSinger" />
+          </Key>
+          <Property Name="idSinger" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameSinger" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="imageSinger" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kind">
+          <Key>
+            <PropertyRef Name="idKind" />
+          </Key>
+          <Property Name="idKind" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameKind" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Playlist">
+          <Key>
+            <PropertyRef Name="idPlaylist" />
+          </Key>
+          <Property Name="idPlaylist" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imagePlaylist" Type="varchar(max)" Nullable="false" />
+          <Property Name="namePlaylist" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="idSong" Type="int" Nullable="false" />
+          <Property Name="created_date" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="idUser" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="idSong" />
+          </Key>
+          <Property Name="idSong" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameSong" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="idSinger" Type="int" Nullable="false" />
+          <Property Name="idKind" Type="int" Nullable="false" />
+          <Property Name="urlSong" Type="varchar(max)" Nullable="false" />
+          <Property Name="imageSong" Type="varchar(max)" />
+          <Property Name="created_date" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pass" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Playlist_Song">
+          <End Role="Song" Type="Self.Song" Multiplicity="1" />
+          <End Role="Playlist" Type="Self.Playlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Song">
+              <PropertyRef Name="idSong" />
+            </Principal>
+            <Dependent Role="Playlist">
+              <PropertyRef Name="idSong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Playlist_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Playlist" Type="Self.Playlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="Playlist">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Song_Author">
+          <End Role="Author" Type="Self.Author" Multiplicity="1" />
+          <End Role="Song" Type="Self.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="idSinger" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="idSinger" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Song_Kind">
+          <End Role="Kind" Type="Self.Kind" Multiplicity="1" />
+          <End Role="Song" Type="Self.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kind">
+              <PropertyRef Name="idKind" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="idKind" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="IMUSIKModelStoreContainer">
+          <EntitySet Name="Author" EntityType="Self.Author" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kind" EntityType="Self.Kind" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Playlist" EntityType="Self.Playlist" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Song" EntityType="Self.Song" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Playlist_Song" Association="Self.FK_Playlist_Song">
+            <End Role="Song" EntitySet="Song" />
+            <End Role="Playlist" EntitySet="Playlist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Playlist_Users" Association="Self.FK_Playlist_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Playlist" EntitySet="Playlist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Song_Author" Association="Self.FK_Song_Author">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Song_Kind" Association="Self.FK_Song_Kind">
+            <End Role="Kind" EntitySet="Kind" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IMUSIKModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="idSinger" />
+          </Key>
+          <Property Name="idSinger" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameSinger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="imageSinger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Songs" Relationship="Self.FK_Song_Author" FromRole="Author" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="Kind">
+          <Key>
+            <PropertyRef Name="idKind" />
+          </Key>
+          <Property Name="idKind" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameKind" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Songs" Relationship="Self.FK_Song_Kind" FromRole="Kind" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="Playlist">
+          <Key>
+            <PropertyRef Name="idPlaylist" />
+          </Key>
+          <Property Name="idPlaylist" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imagePlaylist" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="namePlaylist" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idSong" Type="Int32" Nullable="false" />
+          <Property Name="created_date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idUser" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Song" Relationship="Self.FK_Playlist_Song" FromRole="Playlist" ToRole="Song" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Playlist_Users" FromRole="Playlist" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="idSong" />
+          </Key>
+          <Property Name="idSong" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameSong" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idSinger" Type="Int32" Nullable="false" />
+          <Property Name="idKind" Type="Int32" Nullable="false" />
+          <Property Name="urlSong" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="imageSong" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="created_date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Author" Relationship="Self.FK_Song_Author" FromRole="Song" ToRole="Author" />
+          <NavigationProperty Name="Kind" Relationship="Self.FK_Song_Kind" FromRole="Song" ToRole="Kind" />
+          <NavigationProperty Name="Playlists" Relationship="Self.FK_Playlist_Song" FromRole="Song" ToRole="Playlist" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Playlists" Relationship="Self.FK_Playlist_Users" FromRole="Users" ToRole="Playlist" />
+        </EntityType>
+        <Association Name="FK_Song_Author">
+          <End Role="Author" Type="Self.Author" Multiplicity="1" />
+          <End Role="Song" Type="Self.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="idSinger" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="idSinger" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Song_Kind">
+          <End Role="Kind" Type="Self.Kind" Multiplicity="1" />
+          <End Role="Song" Type="Self.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kind">
+              <PropertyRef Name="idKind" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="idKind" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Playlist_Song">
+          <End Role="Song" Type="Self.Song" Multiplicity="1" />
+          <End Role="Playlist" Type="Self.Playlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Song">
+              <PropertyRef Name="idSong" />
+            </Principal>
+            <Dependent Role="Playlist">
+              <PropertyRef Name="idSong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Playlist_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Playlist" Type="Self.Playlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="Playlist">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="IMUSIKEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Authors" EntityType="Self.Author" />
+          <EntitySet Name="Kinds" EntityType="Self.Kind" />
+          <EntitySet Name="Playlists" EntityType="Self.Playlist" />
+          <EntitySet Name="Songs" EntityType="Self.Song" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Song_Author" Association="Self.FK_Song_Author">
+            <End Role="Author" EntitySet="Authors" />
+            <End Role="Song" EntitySet="Songs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Song_Kind" Association="Self.FK_Song_Kind">
+            <End Role="Kind" EntitySet="Kinds" />
+            <End Role="Song" EntitySet="Songs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Playlist_Song" Association="Self.FK_Playlist_Song">
+            <End Role="Song" EntitySet="Songs" />
+            <End Role="Playlist" EntitySet="Playlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Playlist_Users" Association="Self.FK_Playlist_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Playlist" EntitySet="Playlists" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IMUSIKModelStoreContainer" CdmEntityContainer="IMUSIKEntities">
+          <EntitySetMapping Name="Authors">
+            <EntityTypeMapping TypeName="IMUSIKModel.Author">
+              <MappingFragment StoreEntitySet="Author">
+                <ScalarProperty Name="idSinger" ColumnName="idSinger" />
+                <ScalarProperty Name="nameSinger" ColumnName="nameSinger" />
+                <ScalarProperty Name="imageSinger" ColumnName="imageSinger" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kinds">
+            <EntityTypeMapping TypeName="IMUSIKModel.Kind">
+              <MappingFragment StoreEntitySet="Kind">
+                <ScalarProperty Name="idKind" ColumnName="idKind" />
+                <ScalarProperty Name="nameKind" ColumnName="nameKind" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Playlists">
+            <EntityTypeMapping TypeName="IMUSIKModel.Playlist">
+              <MappingFragment StoreEntitySet="Playlist">
+                <ScalarProperty Name="idPlaylist" ColumnName="idPlaylist" />
+                <ScalarProperty Name="imagePlaylist" ColumnName="imagePlaylist" />
+                <ScalarProperty Name="namePlaylist" ColumnName="namePlaylist" />
+                <ScalarProperty Name="idSong" ColumnName="idSong" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Songs">
+            <EntityTypeMapping TypeName="IMUSIKModel.Song">
+              <MappingFragment StoreEntitySet="Song">
+                <ScalarProperty Name="idSong" ColumnName="idSong" />
+                <ScalarProperty Name="nameSong" ColumnName="nameSong" />
+                <ScalarProperty Name="idSinger" ColumnName="idSinger" />
+                <ScalarProperty Name="idKind" ColumnName="idKind" />
+                <ScalarProperty Name="urlSong" ColumnName="urlSong" />
+                <ScalarProperty Name="imageSong" ColumnName="imageSong" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="IMUSIKModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="IMUSIKModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

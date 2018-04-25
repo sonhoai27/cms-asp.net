@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Thêm ảnh";
+}
+<div class="space"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <h1>Tải hình ảnh</h1>
+            <form runat="server" method="post" accept-charset="utf-8" action="/home/AddCover" enctype="multipart/form-data">
+                <div class="form-group" style="display: none">
+                    <label for="exampleFormControlInput1"></label>
+                    <input type="text" name="id" value="@ViewBag.Id">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Hình ảnh</label>
+                    <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </form>
+        </div>
+    </div>
+</div>

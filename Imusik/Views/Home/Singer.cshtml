@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Thêm Singer";
+}
+<div class="space"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <form method="post" accept-charset="utf-8" action="/home/AddSinger" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Tên ca sĩ</label>
+                    <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Tên">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Hình ảnh</label>
+                    <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+                <button type="submit" class="btn btn-primary">Thêm</button>
+            </form>
+        </div>
+    </div>
+</div>

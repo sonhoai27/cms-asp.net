@@ -1,0 +1,9 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+.space {
+    margin-top: 80px;
+    display: block;
+    width:100%;
+}
