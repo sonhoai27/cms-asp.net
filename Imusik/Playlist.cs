@@ -14,14 +14,20 @@ namespace Imusik
     
     public partial class Playlist
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Playlist()
+        {
+            this.DetailLists = new HashSet<DetailList>();
+        }
+    
         public int idPlaylist { get; set; }
         public string imagePlaylist { get; set; }
         public string namePlaylist { get; set; }
-        public int idSong { get; set; }
         public string created_date { get; set; }
         public int idUser { get; set; }
     
-        public virtual Song Song { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetailList> DetailLists { get; set; }
         public virtual User User { get; set; }
     }
 }

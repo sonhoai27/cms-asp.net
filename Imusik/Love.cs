@@ -12,28 +12,19 @@ namespace Imusik
     using System;
     using System.Collections.Generic;
     
-    public partial class Song
+    public partial class Love
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Song()
+        public Love()
         {
-            this.DetailLists = new HashSet<DetailList>();
-            this.Loves = new HashSet<Love>();
+            this.DetailLoves = new HashSet<DetailLove>();
         }
     
+        public int idLove { get; set; }
         public int idSong { get; set; }
-        public string nameSong { get; set; }
-        public int idSinger { get; set; }
-        public int idKind { get; set; }
-        public string urlSong { get; set; }
-        public string imageSong { get; set; }
-        public string created_date { get; set; }
     
-        public virtual Author Author { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetailList> DetailLists { get; set; }
-        public virtual Kind Kind { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Love> Loves { get; set; }
+        public virtual ICollection<DetailLove> DetailLoves { get; set; }
+        public virtual Song Song { get; set; }
     }
 }

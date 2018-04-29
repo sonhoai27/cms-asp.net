@@ -26,7 +26,10 @@ namespace Imusik
         }
     
         public virtual DbSet<Author> Authors { get; set; }
+        public virtual DbSet<DetailList> DetailLists { get; set; }
+        public virtual DbSet<DetailLove> DetailLoves { get; set; }
         public virtual DbSet<Kind> Kinds { get; set; }
+        public virtual DbSet<Love> Loves { get; set; }
         public virtual DbSet<Playlist> Playlists { get; set; }
         public virtual DbSet<Song> Songs { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
