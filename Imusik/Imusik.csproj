@@ -73,6 +73,9 @@
     <Reference Include="Google.Apis.PlatformServices, Version=1.33.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.33.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="JWT, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JWT.4.0.0\lib\net46\JWT.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -527,7 +530,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="JwtManager.cs" />
     <Compile Include="Kind.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
@@ -537,6 +539,7 @@
     <Compile Include="Models\GoogleDriveFiles.cs" />
     <Compile Include="Models\GoogleDriveFilesRepository.cs" />
     <Compile Include="Models\SongObj.cs" />
+    <Compile Include="Models\TokenUser.cs" />
     <Compile Include="Models\UploadImage.cs" />
     <Compile Include="Playlist.cs">
       <DependentUpon>Data.tt</DependentUpon>

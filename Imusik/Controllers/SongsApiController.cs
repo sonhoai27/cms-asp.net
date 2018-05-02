@@ -31,7 +31,8 @@ namespace Imusik.Controllers
                              idKind = s.idKind,
                              idSinger = s.idSinger,
                              urlSong = s.urlSong,
-                             imageSong = s.imageSong
+                             imageSong = s.imageSong,
+                             luotNghe = s.luotNghe,
                          }).Skip(10 * page).Take(10);
             return songs.ToList();
         }
@@ -54,7 +55,8 @@ namespace Imusik.Controllers
                              idKind = s.idKind,
                              idSinger = s.idSinger,
                              urlSong = s.urlSong,
-                             imageSong = s.imageSong
+                             imageSong = s.imageSong,
+                             luotNghe = s.luotNghe
                          });
             return songs.ToList();
         }

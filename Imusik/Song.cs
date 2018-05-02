@@ -28,6 +28,7 @@ namespace Imusik
         public string urlSong { get; set; }
         public string imageSong { get; set; }
         public string created_date { get; set; }
+        public int luotNghe { get; set; }
     
         public virtual Author Author { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

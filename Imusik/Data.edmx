@@ -69,6 +69,7 @@
           <Property Name="urlSong" Type="varchar(max)" Nullable="false" />
           <Property Name="imageSong" Type="varchar(max)" />
           <Property Name="created_date" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="luotNghe" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -289,6 +290,7 @@
           <Property Name="urlSong" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="imageSong" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="created_date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="luotNghe" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Author" Relationship="Self.FK_Song_Author" FromRole="Song" ToRole="Author" />
           <NavigationProperty Name="DetailLists" Relationship="Self.FK_DetailList_Song" FromRole="Song" ToRole="DetailList" />
           <NavigationProperty Name="Kind" Relationship="Self.FK_Song_Kind" FromRole="Song" ToRole="Kind" />
@@ -511,6 +513,7 @@
                 <ScalarProperty Name="urlSong" ColumnName="urlSong" />
                 <ScalarProperty Name="imageSong" ColumnName="imageSong" />
                 <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="luotNghe" ColumnName="luotNghe" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -6,33 +6,119 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Imusik;
+using JWT;
+using JWT.Builder;
+using Newtonsoft.Json.Linq;
 
 namespace Imusik.Controllers
 {
     public class PlaylistsApiController : ApiController
     {
+        const string secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
         private IMUSIKEntities db = new IMUSIKEntities();
 
         // GET: api/PlaylistsApi
-        public IQueryable<Playlist> GetPlaylists()
+        public IEnumerable<Object> GetPlaylists(Int32 list, string token)
         {
-            return db.Playlists;
+            JObject jsonObj = null;
+            try
+            {
+                string json = new JwtBuilder()
+                    .WithSecret(secret)
+                    .MustVerifySignature()
+                    .Decode(token);
+
+                jsonObj = JObject.Parse(json);
+
+                if (jsonObj.GetValue("idUser").ToString().Equals(list+""))
+                {
+                    var playlists = (from p in db.Playlists
+                                     orderby p.idPlaylist descending
+                                     where p.idUser == list
+                                     select new
+                                 {
+                                      idUser = p.idUser,
+                                     namePlayList = p.namePlaylist,
+                                     idPlaylist = p.idPlaylist,
+                                     imagePlaylist = p.imagePlaylist,
+                                     created_date = p.created_date,
+                                 }).Take(10);
+                    return playlists.ToList();
+                }
+
+
+            }
+            catch (TokenExpiredException)
+            {
+                Console.WriteLine("Token has expired");
+            }
+            catch (SignatureVerificationException)
+            {
+                Console.WriteLine("Token has invalid signature");
+            }
+            return null;
         }
 
         // GET: api/PlaylistsApi/5
         [ResponseType(typeof(Playlist))]
-        public IHttpActionResult GetPlaylist(int id)
+        public IEnumerable<Object> GetPlaylist(int id, string token, Int32 list)
         {
-            Playlist playlist = db.Playlists.Find(id);
-            if (playlist == null)
-            {
-                return NotFound();
-            }
+            //Playlist playlist = db.Playlists.Find(id);
+            //if (playlist == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return Ok(playlist);
+            //return Ok(playlist);
+
+            JObject jsonObj = null;
+            try
+            {
+                string json = new JwtBuilder()
+                    .WithSecret(secret)
+                    .MustVerifySignature()
+                    .Decode(token);
+
+                jsonObj = JObject.Parse(json);
+
+                if (jsonObj.GetValue("idUser").ToString().Equals(list + ""))
+                {
+                    var playlists = (from p in db.DetailLists
+                                     join s in db.Songs on p.idSong equals s.idSong
+                                     join a in db.Authors on s.idSinger equals a.idSinger
+                                     join k in db.Kinds on s.idKind equals k.idKind
+                                     orderby p.idDetailList descending
+                                     where p.idList == id
+                                     select new
+                                     {
+                                         nameSinger = a.nameSinger,
+                                         nameSong = s.nameSong,
+                                         nameKind = k.nameKind,
+                                         idSong = s.idSong,
+                                         idKind = s.idKind,
+                                         idSinger = s.idSinger,
+                                         urlSong = s.urlSong,
+                                         imageSong = s.imageSong,
+                                         luotNghe = s.luotNghe
+                                     }).Take(10);
+                    return playlists.ToList();
+                }
+
+
+            }
+            catch (TokenExpiredException)
+            {
+                Console.WriteLine("Token has expired");
+            }
+            catch (SignatureVerificationException)
+            {
+                Console.WriteLine("Token has invalid signature");
+            }
+            return null;
         }
 
         // PUT: api/PlaylistsApi/5
@@ -86,21 +172,116 @@ namespace Imusik.Controllers
         }
 
         // DELETE: api/PlaylistsApi/5
-        [ResponseType(typeof(Playlist))]
-        public IHttpActionResult DeletePlaylist(int id)
+        [HttpDelete]
+        public IHttpActionResult DeletePlaylist(int id, string token, Int32 user)
         {
-            Playlist playlist = db.Playlists.Find(id);
-            if (playlist == null)
+            JObject jsonObj = null;
+            try
             {
-                return NotFound();
+                string json = new JwtBuilder()
+                   .WithSecret(secret)
+                   .MustVerifySignature()
+                   .Decode(token);
+
+                jsonObj = JObject.Parse(json);
+                if (jsonObj.GetValue("idUser").ToString().Equals(user + "")) {
+                    Playlist playlist = db.Playlists.Find(id);
+                    DetailList detail = db.DetailLists.Where(b => b.idList == id)
+                   .FirstOrDefault();
+                    if (playlist == null)
+                    {
+                        return Json(new Models.TokenUser(
+                                  400,
+                                   "error",
+                                   0
+                                  ));
+                    }
+                    db.DetailLists.Remove(detail);
+                    db.Playlists.Remove(playlist);
+                    db.SaveChanges();
+                    return Json(new Models.TokenUser(
+                              200,
+                               "ok",
+                               0
+                              ));
+                }
+            }
+            catch(Exception e)
+            {
+                return Json(new Models.TokenUser(
+                                 400,
+                                  "error",
+                                  0
+                                 ));
             }
 
-            db.Playlists.Remove(playlist);
-            db.SaveChanges();
-
-            return Ok(playlist);
+            return Json(new Models.TokenUser(
+                                 400,
+                                  "error",
+                                  0
+                                 ));
         }
+        [HttpDelete]
+        public IHttpActionResult deleteSong(Int32 idList,Int32 idDetail, string token, Int32 idUser)
+        {
 
+            JObject jsonObj = null;
+            try
+            {
+                string json = new JwtBuilder()
+                .WithSecret(secret)
+                .MustVerifySignature()
+                .Decode(token);
+
+                jsonObj = JObject.Parse(json);
+                if (jsonObj.GetValue("idUser").ToString().Equals(idUser + ""))
+                {
+                    DetailList detail = db.DetailLists.Where(b => b.idList == idList && b.idDetailList == idDetail)
+                    .FirstOrDefault();
+                    if (detail != null)
+                    {
+                        try
+                        {
+                            db.DetailLists.Remove(detail);
+                            db.SaveChanges();
+                            return Json(new Models.TokenUser(
+                                         200,
+                                          "ok",
+                                          idUser
+                                         ));
+                        }
+                        catch (Exception e)
+                        {
+                            return Json(new Models.TokenUser(
+                                         400,
+                                          "error",
+                                          0
+                                         ));
+                        }
+                    }else
+                    {
+                        return Json(new Models.TokenUser(
+                                         400,
+                                          "error",
+                                          0
+                                         ));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new Models.TokenUser(
+                             400,
+                              "error",
+                              0
+                             ));
+            }
+            return Json(new Models.TokenUser(
+                                         400,
+                                          "error",
+                                          0
+                                         ));
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

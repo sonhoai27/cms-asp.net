@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2020b6bf9edd4336859b7cfaa548a35c" Name="Diagram1" ZoomLevel="97">
+      <Diagram DiagramId="17ba898b23614658aa81c220363a751f" Name="Diagram1">
         <EntityTypeShape EntityType="IMUSIKModel.Author" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="IMUSIKModel.DetailList" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="IMUSIKModel.DetailLove" Width="1.5" PointX="7.5" PointY="5.875" IsExpanded="true" />
         <EntityTypeShape EntityType="IMUSIKModel.Kind" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="IMUSIKModel.Love" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="IMUSIKModel.Playlist" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="IMUSIKModel.Song" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMUSIKModel.Song" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="IMUSIKModel.sysdiagram" Width="1.5" PointX="7.75" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="IMUSIKModel.User" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
         <AssociationConnector Association="IMUSIKModel.FK_Song_Author" ManuallyRouted="false" />
