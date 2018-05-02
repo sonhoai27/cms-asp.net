@@ -170,6 +170,52 @@ namespace Imusik.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = playlist.idPlaylist }, playlist);
         }
+        // POST: api/PlaylistsApi
+        [ResponseType(typeof(Playlist))]
+        [HttpPost]
+        public IHttpActionResult AddSongToPlaylist(DetailList detail, Int32 idUser, string token)
+        {
+            JObject jsonObj = null;
+            try
+            {
+                string json = new JwtBuilder()
+                   .WithSecret(secret)
+                   .MustVerifySignature()
+                   .Decode(token);
+
+                jsonObj = JObject.Parse(json);
+                if (jsonObj.GetValue("idUser").ToString().Equals(idUser + ""))
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return BadRequest(ModelState);
+                    }
+
+                    db.DetailLists.Add(detail);
+                    db.SaveChanges();
+
+                    return Json(new Models.TokenUser(
+                                  200,
+                                   "ok",
+                                   0
+                                  ));
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new Models.TokenUser(
+                                 400,
+                                  "error",
+                                  0
+                                 ));
+            }
+
+            return Json(new Models.TokenUser(
+                                 400,
+                                  "error",
+                                  0
+                                 ));
+        }
 
         // DELETE: api/PlaylistsApi/5
         [HttpDelete]

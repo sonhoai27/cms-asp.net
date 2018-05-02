@@ -18,7 +18,6 @@ namespace Imusik
         public Song()
         {
             this.DetailLists = new HashSet<DetailList>();
-            this.Loves = new HashSet<Love>();
         }
     
         public int idSong { get; set; }
@@ -34,7 +33,5 @@ namespace Imusik
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetailList> DetailLists { get; set; }
         public virtual Kind Kind { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Love> Loves { get; set; }
     }
 }

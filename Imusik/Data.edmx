@@ -17,22 +17,9 @@
           <Key>
             <PropertyRef Name="idDetailList" />
           </Key>
-          <Property Name="idDetailList" Type="int" Nullable="false" />
+          <Property Name="idDetailList" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idSong" Type="int" Nullable="false" />
           <Property Name="idList" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="DetailLove">
-          <Key>
-            <PropertyRef Name="idDetailLove" />
-          </Key>
-          <Property Name="idDetailLove" Type="int" Nullable="false" />
-          <Property Name="idLove" Type="int" Nullable="false" />
-          <Property Name="idUser" Type="int" Nullable="false" />
-          <Property Name="noLove" Type="int" />
-          <Property Name="littleLove" Type="int" />
-          <Property Name="love" Type="int" />
-          <Property Name="lotsofLove" Type="int" />
-          <Property Name="superLove" Type="int" />
         </EntityType>
         <EntityType Name="Kind">
           <Key>
@@ -45,8 +32,14 @@
           <Key>
             <PropertyRef Name="idLove" />
           </Key>
-          <Property Name="idLove" Type="int" Nullable="false" />
+          <Property Name="idLove" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idSong" Type="int" Nullable="false" />
+          <Property Name="idUser" Type="int" Nullable="false" />
+          <Property Name="noLove" Type="int" />
+          <Property Name="littleLove" Type="int" />
+          <Property Name="love" Type="int" />
+          <Property Name="superLove" Type="int" />
+          <Property Name="lotsofLove" Type="int" />
         </EntityType>
         <EntityType Name="Playlist">
           <Key>
@@ -113,30 +106,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DetailLove_Love">
-          <End Role="Love" Type="Self.Love" Multiplicity="1" />
-          <End Role="DetailLove" Type="Self.DetailLove" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Love">
-              <PropertyRef Name="idLove" />
-            </Principal>
-            <Dependent Role="DetailLove">
-              <PropertyRef Name="idLove" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Love_Song">
-          <End Role="Song" Type="Self.Song" Multiplicity="1" />
-          <End Role="Love" Type="Self.Love" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Song">
-              <PropertyRef Name="idSong" />
-            </Principal>
-            <Dependent Role="Love">
-              <PropertyRef Name="idSong" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Playlist_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Playlist" Type="Self.Playlist" Multiplicity="*" />
@@ -176,7 +145,6 @@
         <EntityContainer Name="IMUSIKModelStoreContainer">
           <EntitySet Name="Author" EntityType="Self.Author" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailList" EntityType="Self.DetailList" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DetailLove" EntityType="Self.DetailLove" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kind" EntityType="Self.Kind" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Love" EntityType="Self.Love" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Playlist" EntityType="Self.Playlist" Schema="dbo" store:Type="Tables" />
@@ -190,14 +158,6 @@
           <AssociationSet Name="FK_DetailList_Song" Association="Self.FK_DetailList_Song">
             <End Role="Song" EntitySet="Song" />
             <End Role="DetailList" EntitySet="DetailList" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetailLove_Love" Association="Self.FK_DetailLove_Love">
-            <End Role="Love" EntitySet="Love" />
-            <End Role="DetailLove" EntitySet="DetailLove" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Love_Song" Association="Self.FK_Love_Song">
-            <End Role="Song" EntitySet="Song" />
-            <End Role="Love" EntitySet="Love" />
           </AssociationSet>
           <AssociationSet Name="FK_Playlist_Users" Association="Self.FK_Playlist_Users">
             <End Role="Users" EntitySet="Users" />
@@ -230,25 +190,11 @@
           <Key>
             <PropertyRef Name="idDetailList" />
           </Key>
-          <Property Name="idDetailList" Type="Int32" Nullable="false" />
+          <Property Name="idDetailList" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idSong" Type="Int32" Nullable="false" />
           <Property Name="idList" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Playlist" Relationship="Self.FK_DetailList_Playlist" FromRole="DetailList" ToRole="Playlist" />
           <NavigationProperty Name="Song" Relationship="Self.FK_DetailList_Song" FromRole="DetailList" ToRole="Song" />
-        </EntityType>
-        <EntityType Name="DetailLove">
-          <Key>
-            <PropertyRef Name="idDetailLove" />
-          </Key>
-          <Property Name="idDetailLove" Type="Int32" Nullable="false" />
-          <Property Name="idLove" Type="Int32" Nullable="false" />
-          <Property Name="idUser" Type="Int32" Nullable="false" />
-          <Property Name="noLove" Type="Int32" />
-          <Property Name="littleLove" Type="Int32" />
-          <Property Name="love" Type="Int32" />
-          <Property Name="lotsofLove" Type="Int32" />
-          <Property Name="superLove" Type="Int32" />
-          <NavigationProperty Name="Love1" Relationship="Self.FK_DetailLove_Love" FromRole="DetailLove" ToRole="Love" />
         </EntityType>
         <EntityType Name="Kind">
           <Key>
@@ -262,10 +208,14 @@
           <Key>
             <PropertyRef Name="idLove" />
           </Key>
-          <Property Name="idLove" Type="Int32" Nullable="false" />
+          <Property Name="idLove" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idSong" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DetailLoves" Relationship="Self.FK_DetailLove_Love" FromRole="Love" ToRole="DetailLove" />
-          <NavigationProperty Name="Song" Relationship="Self.FK_Love_Song" FromRole="Love" ToRole="Song" />
+          <Property Name="idUser" Type="Int32" Nullable="false" />
+          <Property Name="noLove" Type="Int32" />
+          <Property Name="littleLove" Type="Int32" />
+          <Property Name="love1" Type="Int32" />
+          <Property Name="superLove" Type="Int32" />
+          <Property Name="lotsofLove" Type="Int32" />
         </EntityType>
         <EntityType Name="Playlist">
           <Key>
@@ -294,7 +244,6 @@
           <NavigationProperty Name="Author" Relationship="Self.FK_Song_Author" FromRole="Song" ToRole="Author" />
           <NavigationProperty Name="DetailLists" Relationship="Self.FK_DetailList_Song" FromRole="Song" ToRole="DetailList" />
           <NavigationProperty Name="Kind" Relationship="Self.FK_Song_Kind" FromRole="Song" ToRole="Kind" />
-          <NavigationProperty Name="Loves" Relationship="Self.FK_Love_Song" FromRole="Song" ToRole="Love" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -351,18 +300,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DetailLove_Love">
-          <End Role="Love" Type="Self.Love" Multiplicity="1" />
-          <End Role="DetailLove" Type="Self.DetailLove" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Love">
-              <PropertyRef Name="idLove" />
-            </Principal>
-            <Dependent Role="DetailLove">
-              <PropertyRef Name="idLove" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Song_Kind">
           <End Role="Kind" Type="Self.Kind" Multiplicity="1" />
           <End Role="Song" Type="Self.Song" Multiplicity="*" />
@@ -372,18 +309,6 @@
             </Principal>
             <Dependent Role="Song">
               <PropertyRef Name="idKind" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Love_Song">
-          <End Role="Song" Type="Self.Song" Multiplicity="1" />
-          <End Role="Love" Type="Self.Love" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Song">
-              <PropertyRef Name="idSong" />
-            </Principal>
-            <Dependent Role="Love">
-              <PropertyRef Name="idSong" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -402,7 +327,6 @@
         <EntityContainer Name="IMUSIKEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Authors" EntityType="Self.Author" />
           <EntitySet Name="DetailLists" EntityType="Self.DetailList" />
-          <EntitySet Name="DetailLoves" EntityType="Self.DetailLove" />
           <EntitySet Name="Kinds" EntityType="Self.Kind" />
           <EntitySet Name="Loves" EntityType="Self.Love" />
           <EntitySet Name="Playlists" EntityType="Self.Playlist" />
@@ -421,17 +345,9 @@
             <End Role="Song" EntitySet="Songs" />
             <End Role="DetailList" EntitySet="DetailLists" />
           </AssociationSet>
-          <AssociationSet Name="FK_DetailLove_Love" Association="Self.FK_DetailLove_Love">
-            <End Role="Love" EntitySet="Loves" />
-            <End Role="DetailLove" EntitySet="DetailLoves" />
-          </AssociationSet>
           <AssociationSet Name="FK_Song_Kind" Association="Self.FK_Song_Kind">
             <End Role="Kind" EntitySet="Kinds" />
             <End Role="Song" EntitySet="Songs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Love_Song" Association="Self.FK_Love_Song">
-            <End Role="Song" EntitySet="Songs" />
-            <End Role="Love" EntitySet="Loves" />
           </AssociationSet>
           <AssociationSet Name="FK_Playlist_Users" Association="Self.FK_Playlist_Users">
             <End Role="Users" EntitySet="Users" />
@@ -462,20 +378,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DetailLoves">
-            <EntityTypeMapping TypeName="IMUSIKModel.DetailLove">
-              <MappingFragment StoreEntitySet="DetailLove">
-                <ScalarProperty Name="idDetailLove" ColumnName="idDetailLove" />
-                <ScalarProperty Name="idLove" ColumnName="idLove" />
-                <ScalarProperty Name="idUser" ColumnName="idUser" />
-                <ScalarProperty Name="noLove" ColumnName="noLove" />
-                <ScalarProperty Name="littleLove" ColumnName="littleLove" />
-                <ScalarProperty Name="love" ColumnName="love" />
-                <ScalarProperty Name="lotsofLove" ColumnName="lotsofLove" />
-                <ScalarProperty Name="superLove" ColumnName="superLove" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Kinds">
             <EntityTypeMapping TypeName="IMUSIKModel.Kind">
               <MappingFragment StoreEntitySet="Kind">
@@ -489,6 +391,12 @@
               <MappingFragment StoreEntitySet="Love">
                 <ScalarProperty Name="idLove" ColumnName="idLove" />
                 <ScalarProperty Name="idSong" ColumnName="idSong" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="noLove" ColumnName="noLove" />
+                <ScalarProperty Name="littleLove" ColumnName="littleLove" />
+                <ScalarProperty Name="love1" ColumnName="love" />
+                <ScalarProperty Name="superLove" ColumnName="superLove" />
+                <ScalarProperty Name="lotsofLove" ColumnName="lotsofLove" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

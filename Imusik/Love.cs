@@ -11,20 +11,21 @@ namespace Imusik
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Linq;
+
     public partial class Love
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Love()
-        {
-            this.DetailLoves = new HashSet<DetailLove>();
-        }
-    
+        private object user;
+        private IQueryable<object> loves;
+        private double? sum;
+
         public int idLove { get; set; }
         public int idSong { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetailLove> DetailLoves { get; set; }
-        public virtual Song Song { get; set; }
+        public int idUser { get; set; }
+        public Nullable<int> noLove { get; set; }
+        public Nullable<int> littleLove { get; set; }
+        public Nullable<int> love1 { get; set; }
+        public Nullable<int> superLove { get; set; }
+        public Nullable<int> lotsofLove { get; set; }
     }
 }

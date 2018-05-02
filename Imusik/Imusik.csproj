@@ -504,6 +504,7 @@
     <Compile Include="Controllers\KindsApiController.cs" />
     <Compile Include="Controllers\LoginApiController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LovesController.cs" />
     <Compile Include="Controllers\PlaylistsApiController.cs" />
     <Compile Include="Controllers\SongsApiController.cs" />
     <Compile Include="Data.Context.cs">
@@ -524,9 +525,6 @@
     <Compile Include="DetailList.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
-    <Compile Include="DetailLove.cs">
-      <DependentUpon>Data.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -538,6 +536,9 @@
     </Compile>
     <Compile Include="Models\GoogleDriveFiles.cs" />
     <Compile Include="Models\GoogleDriveFilesRepository.cs" />
+    <Compile Include="Models\LoveReport.cs" />
+    <Compile Include="Models\LoveSum.cs" />
+    <Compile Include="Models\LoveUser.cs" />
     <Compile Include="Models\SongObj.cs" />
     <Compile Include="Models\TokenUser.cs" />
     <Compile Include="Models\UploadImage.cs" />
