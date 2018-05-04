@@ -63,6 +63,7 @@ namespace Imusik.Controllers
             return null;
         }
 
+        //lấy ra 1 list
         // GET: api/PlaylistsApi/5
         [ResponseType(typeof(Playlist))]
         public IEnumerable<Object> GetPlaylist(int id, string token, Int32 list)
@@ -95,15 +96,15 @@ namespace Imusik.Controllers
                                      where p.idList == id
                                      select new
                                      {
-                                         nameSinger = a.nameSinger,
-                                         nameSong = s.nameSong,
-                                         nameKind = k.nameKind,
+                                         idDetail = p.idDetailList,
                                          idSong = s.idSong,
                                          idKind = s.idKind,
                                          idSinger = s.idSinger,
+                                         nameSinger = a.nameSinger,
+                                         nameSong = s.nameSong,
+                                         luotNghe = s.luotNghe,
                                          urlSong = s.urlSong,
-                                         imageSong = s.imageSong,
-                                         luotNghe = s.luotNghe
+                                         imageSong = s.imageSong
                                      }).Take(10);
                     return playlists.ToList();
                 }
@@ -242,14 +243,26 @@ namespace Imusik.Controllers
                                    0
                                   ));
                     }
-                    db.DetailLists.Remove(detail);
-                    db.Playlists.Remove(playlist);
-                    db.SaveChanges();
-                    return Json(new Models.TokenUser(
-                              200,
-                               "ok",
-                               0
-                              ));
+                    if(detail != null)
+                    {
+                        db.DetailLists.Remove(detail);
+                        db.Playlists.Remove(playlist);
+                        db.SaveChanges();
+                        return Json(new Models.TokenUser(
+                                  200,
+                                   "ok",
+                                   0
+                                  ));
+                    }else
+                    {
+                        db.Playlists.Remove(playlist);
+                        db.SaveChanges();
+                        return Json(new Models.TokenUser(
+                                  200,
+                                   "ok",
+                                   0
+                                  ));
+                    }
                 }
             }
             catch(Exception e)
@@ -296,7 +309,7 @@ namespace Imusik.Controllers
                                           idUser
                                          ));
                         }
-                        catch (Exception e)
+                        catch (Exception a)
                         {
                             return Json(new Models.TokenUser(
                                          400,

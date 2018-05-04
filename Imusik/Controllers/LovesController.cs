@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ using Imusik;
 using Imusik.Models;
 using JWT;
 using JWT.Builder;
-using Newtonsoft.Json.Linq;
 
 namespace Imusik.Controllers
 {
@@ -55,25 +55,34 @@ namespace Imusik.Controllers
                                      love = l.love1,
                                      superLove = l.superLove,
                                      lotsofLove = l.lotsofLove
-                                 }).Take(10);
-                    var noLove = loves.Average(e => e.noLove);
-                    var littleLove = loves.Average(e => e.littleLove);
-                    var love = loves.Average(e => e.love);
-                    var superLove = loves.Average(e => e.superLove);
-                    var lotsofLove = loves.Average(e => e.lotsofLove);
+                                 });
+                    var yeu = (from l in db.Loves
+                               join u in db.Users on l.idUser equals u.idUser
+                               orderby l.idLove descending
+                               where l.idSong == id
+                               select new
+                               {
+                                   noLove = l.noLove,
+                                   littleLove = l.littleLove,
+                                   love = l.love1,
+                                   lotsofLove = l.lotsofLove,
+                                   superLove = l.superLove
+
+                               });
 
                     LoveSum sum = new LoveSum(
-                            (int)noLove,
-                            (int)littleLove,
-                            (int)love,
-                            (int)lotsofLove,
-                            (int)superLove
+                            (int)yeu.Sum(e => e.noLove),
+                            (int)yeu.Sum(e => e.littleLove),
+                            (int)yeu.Sum(e => e.love),
+                            (int)yeu.Sum(e => e.lotsofLove),
+                            (int)yeu.Sum(e => e.superLove)
                         );
 
                     var user = (from l in db.Loves
                                where l.idSong == id && l.idUser == idUser
                                select new
                                {
+                                   idLove = l.idLove,
                                    idUser = l.idUser,
                                    idSong = l.idSong,
                                    noLove = l.noLove,
@@ -102,56 +111,170 @@ namespace Imusik.Controllers
             }
             return null;
         }
-
-        // PUT: api/Loves/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutLove(int id, Love love)
+        public IHttpActionResult GetLoves(int idSong)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != love.idLove)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(love).State = EntityState.Modified;
-
             try
             {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
+                var yeu = (from l in db.Loves
+                           join u in db.Users on l.idUser equals u.idUser
+                           orderby l.idLove descending
+                           where l.idSong == idSong
+                           select new
+                           {
+                               noLove = l.noLove,
+                               littleLove = l.littleLove,
+                               love = l.love1,
+                               lotsofLove = l.lotsofLove,
+                               superLove = l.superLove
+
+                           });
+
+                LoveSum sum = new LoveSum(
+                        (int)yeu.Sum(e => e.noLove),
+                        (int)yeu.Sum(e => e.littleLove),
+                        (int)yeu.Sum(e => e.love),
+                        (int)yeu.Sum(e => e.lotsofLove),
+                        (int)yeu.Sum(e => e.superLove)
+                    );
+
+
+                return Json(
+                        sum
+                    );
+            }catch(Exception e)
             {
-                if (!LoveExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return null;
+        }
+        // PUT: api/Loves/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutLove(int id, Love love, Int32 idUser, string token)
+        {
+            JObject jsonObj = null;
+            try
+            {
+                string json = new JwtBuilder()
+                    .WithSecret(secret)
+                    .MustVerifySignature()
+                    .Decode(token);
+
+                jsonObj = JObject.Parse(json);
+
+                if (jsonObj.GetValue("idUser").ToString().Equals(idUser + ""))
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return Json(new Models.TokenUser(
+                                   400,
+                                    "error",
+                                    0
+                                   ));
+                    }
+
+                    if (id != love.idLove)
+                    {
+                        return Json(new Models.TokenUser(
+                                  400,
+                                   "error",
+                                   0
+                                  ));
+                    }
+
+                    db.Entry(love).State = EntityState.Modified;
+
+                    try
+                    {
+                        db.SaveChanges();
+                        return Json(new Models.TokenUser(
+                                  200,
+                                   "ok",
+                                   0
+                                  ));
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!LoveExists(id))
+                        {
+                            return Json(new Models.TokenUser(
+                                  400,
+                                   "error",
+                                   0
+                                  ));
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new Models.TokenUser(
+                                  400,
+                                   "error",
+                                   0
+                                  ));
+            }
+            return Json(new Models.TokenUser(
+                                  400,
+                                   "error",
+                                   0
+                                  ));
         }
 
         // POST: api/Loves
         [ResponseType(typeof(Love))]
-        public async Task<IHttpActionResult> PostLove(Love love)
+        public IHttpActionResult PostLove(Love love, Int32 idUser, string token)
         {
-            if (!ModelState.IsValid)
+            JObject jsonObj = null;
+            try
             {
-                return BadRequest(ModelState);
+                string json = new JwtBuilder()
+                    .WithSecret(secret)
+                    .MustVerifySignature()
+                    .Decode(token);
+
+                jsonObj = JObject.Parse(json);
+
+                if (jsonObj.GetValue("idUser").ToString().Equals(idUser + ""))
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return Json(new Models.TokenUser(
+                                  400,
+                                   "error",
+                                   0
+                                  ));
+                    }
+
+                    db.Loves.Add(love);
+                    db.SaveChanges();
+
+                    return Json(new Models.TokenUser(
+                                  200,
+                                   "ok",
+                                   0
+                                  ));
+                }
+            }catch(Exception e)
+            {
+                return Json(new Models.TokenUser(
+                                  400,
+                                   "error",
+                                   0
+                                  ));
             }
-
-            db.Loves.Add(love);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = love.idLove }, love);
+            return Json(new Models.TokenUser(
+                                  400,
+                                   "error",
+                                   0
+                                  ));
         }
+
+
 
         // DELETE: api/Loves/5
         [ResponseType(typeof(Love))]
