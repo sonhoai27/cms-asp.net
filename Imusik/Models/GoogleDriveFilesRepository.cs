@@ -43,6 +43,39 @@ namespace Imusik.Models
             });
             return service;
         }
+        //get all files from Google Drive.
+        public static List<GoogleDriveFiles> GetDriveFiles()
+        {
+            DriveService service = GetService();
+
+            // define parameters of request.
+            FilesResource.ListRequest FileListRequest = service.Files.List();
+
+            //listRequest.PageSize = 10;
+            //listRequest.PageToken = 10;
+            FileListRequest.Fields = "nextPageToken, files(id, name, size, version, createdTime)";
+
+            //get file list.
+            IList<Google.Apis.Drive.v3.Data.File> files = FileListRequest.Execute().Files;
+            List<GoogleDriveFiles> FileList = new List<GoogleDriveFiles>();
+
+            if (files != null && files.Count > 0)
+            {
+                foreach (var file in files)
+                {
+                    GoogleDriveFiles File = new GoogleDriveFiles
+                    {
+                        Id = file.Id,
+                        Name = file.Name,
+                        Size = file.Size,
+                        Version = file.Version,
+                        CreatedTime = file.CreatedTime
+                    };
+                    FileList.Add(File);
+                }
+            }
+            return FileList;
+        }
         //file Upload to the Google Drive.
         public static string FileUploadInFolder(string folderId, HttpPostedFileBase file)
         {

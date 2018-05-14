@@ -622,6 +622,7 @@
     <Content Include="Views\Home\Kind.cshtml" />
     <Content Include="Views\Home\Cover.cshtml" />
     <Content Include="Views\Home\ListSong.cshtml" />
+    <Content Include="Views\Home\GetGoogleDriveFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

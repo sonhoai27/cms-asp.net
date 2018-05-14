@@ -25,7 +25,7 @@ namespace Imusik.Controllers
             }
             else
             {
-                return Redirect("http://127.0.0.1:8081/login");
+                return Redirect("http://192.168.10.21:8081/login");
             }
         }
 
@@ -91,7 +91,7 @@ namespace Imusik.Controllers
             int idSong = song.idSong;
             if (idSong != 0)
             {
-                Response.Redirect("http://127.0.1.1:8081/home/Cover/?id=" + idSong);
+                Response.Redirect("http://192.168.10.21:8081/home/Cover/?id=" + idSong);
             }
         }
         [HttpGet]
@@ -111,12 +111,17 @@ namespace Imusik.Controllers
                 result.imageSong = UploadImage.uploadImage(file).ToString();
                 imusik.SaveChanges();
             }
-            Response.Redirect("http://127.0.1.1:8081/");
+            Response.Redirect("http://192.168.10.21:8081");
         }
         [HttpGet]
         public ActionResult ListSong()
         {
             return View(imusik.Songs);
+        }
+        [HttpGet]
+        public ActionResult GetGoogleDriveFiles()
+        {
+            return View(GoogleDriveFilesRepository.GetDriveFiles());
         }
     }
 }
