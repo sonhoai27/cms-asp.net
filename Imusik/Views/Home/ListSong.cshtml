@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "ListSong";
+}
+<h2>ListSong</h2>
+<ul type="none">
+    @foreach (var item in Model)
+    {
+        <li> <span>@(item.nameSong)</span> - <span>Luot nghe: @(item.luotNghe)</span></li>
+    }
+
+</ul>

@@ -534,6 +534,7 @@
     <Compile Include="Love.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChangePass.cs" />
     <Compile Include="Models\GoogleDriveFiles.cs" />
     <Compile Include="Models\GoogleDriveFilesRepository.cs" />
     <Compile Include="Models\LoveReport.cs" />
@@ -620,6 +621,7 @@
     <Content Include="Views\Login\Check.cshtml" />
     <Content Include="Views\Home\Kind.cshtml" />
     <Content Include="Views\Home\Cover.cshtml" />
+    <Content Include="Views\Home\ListSong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

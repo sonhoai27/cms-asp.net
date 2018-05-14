@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -18,7 +20,7 @@ namespace Imusik.Controllers
             }
             else
             {
-                return Redirect("http://192.168.1.38:8081");
+                return Redirect("http://127.0.0.1:8081");
             }
 
         }
@@ -30,8 +32,20 @@ namespace Imusik.Controllers
             //var a = imusik.Users.Where(u => u.pass == pass).Select(u => new { u.pass, u.email });
             //var email = a.ToList().ElementAt(0).email;
             //var pass = a.ToList().ElementAt(0).email;
-            User user = imusik.Users.Where(u => u.pass == pass && u.email == email).First();
-            if(user.email.Equals(email) && user.pass.Equals(pass))
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            byte[] bHash = md5.ComputeHash(Encoding.UTF8.GetBytes(pass));
+
+            StringBuilder sbHash = new StringBuilder();
+
+            foreach (byte b in bHash)
+            {
+
+                sbHash.Append(String.Format("{0:x2}", b));
+
+            }
+            string passUser = sbHash.ToString();
+            User user = imusik.Users.Where(u => u.pass == passUser && u.email == email).First();
+            if(user.email.Equals(email) && user.pass.Equals(passUser))
             {
                 HttpCookie ck = new HttpCookie("idUser");
                 ck.Value = user.idUser.ToString();
@@ -39,7 +53,7 @@ namespace Imusik.Controllers
                 Response.Cookies.Add(ck);
                 if(Request.Cookies["idUser"] != null)
                 {
-                   Response.Redirect("http://192.168.1.38:8081");
+                   Response.Redirect("http://127.0.0.1:8081");
                 }
             }
         }

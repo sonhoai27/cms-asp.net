@@ -63,16 +63,18 @@ namespace Imusik.Controllers
 
         // PUT: api/SongsApi/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutSong(int id, Song song)
+        public async Task<IHttpActionResult> PutSong(int id)
         {
+            Song song = db.Songs.Find(id);
+            song.luotNghe = 1 + song.luotNghe;
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Ok(400);
             }
 
             if (id != song.idSong)
             {
-                return BadRequest();
+                return Ok(400);
             }
 
             db.Entry(song).State = EntityState.Modified;
@@ -85,7 +87,7 @@ namespace Imusik.Controllers
             {
                 if (!SongExists(id))
                 {
-                    return NotFound();
+                    return Ok(400);
                 }
                 else
                 {
@@ -93,7 +95,7 @@ namespace Imusik.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(200);
         }
 
         // POST: api/SongsApi
