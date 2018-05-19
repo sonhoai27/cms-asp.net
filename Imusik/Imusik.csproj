@@ -498,6 +498,7 @@
     <Compile Include="Author.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
+    <Compile Include="Constants.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\AuthorsApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -623,6 +624,7 @@
     <Content Include="Views\Home\Cover.cshtml" />
     <Content Include="Views\Home\ListSong.cshtml" />
     <Content Include="Views\Home\GetGoogleDriveFiles.cshtml" />
+    <Content Include="Views\Home\RatingSong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

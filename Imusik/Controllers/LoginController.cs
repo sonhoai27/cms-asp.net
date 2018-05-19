@@ -20,7 +20,7 @@ namespace Imusik.Controllers
             }
             else
             {
-                return Redirect("http://192.168.10.21:8081");
+                return Redirect(Constants.IP);
             }
 
         }
@@ -53,7 +53,7 @@ namespace Imusik.Controllers
                 Response.Cookies.Add(ck);
                 if(Request.Cookies["idUser"] != null)
                 {
-                   Response.Redirect("http://192.168.10.21:8081");
+                   Response.Redirect(Constants.IP);
                 }
             }
         }

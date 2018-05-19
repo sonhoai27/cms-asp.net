@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "RatingSong";
+}
+
+<div class="card">
+    <h2 style="margin: 32px">RatingSong</h2>
+    <table class="table card-body">
+        <tr>
+            <th>ID</th>
+            <th>
+                IDSong
+            </th>
+            <th>
+                IDUser
+            </th>
+            <th>
+                a Start
+            </th>
+            <th>
+                2 Starts
+            </th>
+            <th>
+                3 Starts
+            </th>
+            <th>
+                4 Starts
+            </th>
+            <th>
+                5 Starts
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @(item.idLove)
+            </td>
+            <td>
+                @(item.idSong)
+            </td>
+            <td>
+                @(item.idUser)
+            </td>
+            <td>
+                @(item.noLove)
+            </td>
+            <td>
+                @(item.littleLove)
+            </td>
+            <td>
+                @(item.love1)
+            </td>
+            <td>
+                @(item.superLove)
+            </td>
+            <td>
+                @(item.lotsofLove)
+            </td>
+        </tr>
+
+          }
+    </table>
+
+</div>

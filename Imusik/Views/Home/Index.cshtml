@@ -4,36 +4,38 @@
 <div class="space"></div>
 <div class="container">
     <div class="row">
-        <div class="col-8">
-            <form method="post" accept-charset="utf-8" action="/home/Upload" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">Tên bài hát</label>
-                    <input type="text" name="nameSong" class="form-control" id="exampleFormControlInput1" placeholder="Tên">
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlFile1">Bài hát</label>
-                    <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect2">Ca sĩ</label>
-                    <select class="form-control" name="singerSong" id="exampleFormControlSelect2">
-                        @foreach (var item in Model.authors)
-                         {
-                            <option value="@(item.idSinger)">@(item.nameSinger)</option>
-                         }
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect2">Thể loại</label>
-                    <select class="form-control" name="kindSong" id="exampleFormControlSelect2">
-                        @foreach (var item in Model.kinds)
-                        {
-                        <option value="@(item.idKind)">@(item.nameKind)</option>
-                        }
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Thêm</button>
-            </form>
+        <div class="col-8 card">
+            <div class="card-body">
+                <form method="post" accept-charset="utf-8" action="/home/Upload" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Tên bài hát</label>
+                        <input type="text" name="nameSong" class="form-control" id="exampleFormControlInput1" placeholder="Tên">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Bài hát</label>
+                        <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect2">Ca sĩ</label>
+                        <select class="form-control" name="singerSong" id="exampleFormControlSelect2">
+                            @foreach (var item in Model.authors)
+                {
+                    <option value="@(item.idSinger)">@(item.nameSinger)</option>
+    }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect2">Thể loại</label>
+                        <select class="form-control" name="kindSong" id="exampleFormControlSelect2">
+                            @foreach (var item in Model.kinds)
+                {
+                    <option value="@(item.idKind)">@(item.nameKind)</option>
+    }
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

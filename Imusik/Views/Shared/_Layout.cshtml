@@ -14,7 +14,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
 </head>
 <body>
-    <div class="header">
+    <div class="header" >
         @*<div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -34,8 +34,8 @@
             </div>*@
         <div class="container">
             <div class="row">
-                <div class="col-12">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="col-12 card">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light card-body">
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
@@ -53,14 +53,18 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/home/ListSong">Danh sách bài hát</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/home/RatingSong">Đánh giá bài hát</a>
+                                </li>
                             </ul>
                         </div>
                     </nav>
+
                 </div>
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content" style="margin-top: 80px">
         @RenderBody()
     </div>
 
